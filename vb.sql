@@ -1,26 +1,55 @@
--- Total revenue (sum of quantity * price)
-SELECT SUM(quantity * price) AS total_revenue
-FROM sales;
+-- Create a sample table called 'employees'
+CREATE TABLE employees (
+    id INT PRIMARY KEY,
+    name VARCHAR(100),
+    salary DECIMAL(10, 2),
+    department VARCHAR(50)
+);
 
--- Average quantity sold per sale
-SELECT AVG(quantity) AS avg_quantity
-FROM sales;
+-- Insert some sample data into the 'employees' table
+INSERT INTO employees (id, name, salary, department)
+VALUES
+(1, 'Alice', 60000, 'HR'),
+(2, 'Bob', 75000, 'Finance'),
+(3, 'Charlie', 50000, 'IT'),
+(4, 'David', 80000, 'Finance'),
+(5, 'Eve', 55000, 'HR'),
+(6, 'Frank', 95000, 'IT'),
+(7, 'Grace', 120000, 'Finance');
 
--- Total number of sales
-SELECT COUNT(*) AS total_sales
-FROM sales;
+-- Demonstrate the use of aggregate functions
 
--- Maximum and minimum sale price
-SELECT MAX(price) AS max_price, MIN(price) AS min_price
-FROM sales;
+-- COUNT() - Count the number of rows in the 'employees' table
+SELECT COUNT(*) AS TotalEmployees FROM employees;
 
--- Grouped aggregate: Total quantity sold per product
-SELECT product_name, SUM(quantity) AS total_quantity_sold
-FROM sales
-GROUP BY product_name;
+-- SUM() - Calculate the total sum of salaries
+SELECT SUM(salary) AS TotalSalary FROM employees;
 
--- Daily sales summary
-SELECT sale_date, COUNT(*) AS number_of_sales, SUM(quantity * price) AS daily_revenue
-FROM sales
-GROUP BY sale_date
-ORDER BY sale_date;
+-- AVG() - Calculate the average salary
+SELECT AVG(salary) AS AverageSalary FROM employees;
+
+-- MIN() - Get the minimum salary
+SELECT MIN(salary) AS MinSalary FROM employees;
+
+-- MAX() - Get the maximum salary
+SELECT MAX(salary) AS MaxSalary FROM employees;
+
+-- GROUP_CONCAT() or STRING_AGG() (MySQL example)
+-- Concatenate all employee names into a single string (this is specific to MySQL)
+SELECT GROUP_CONCAT(name ORDER BY name SEPARATOR ', ') AS EmployeeNames
+FROM employees;
+
+-- Variance (if supported by your DBMS, e.g., PostgreSQL, SQL Server, Oracle)
+SELECT VARIANCE(salary) AS SalaryVariance FROM employees;
+
+-- Standard Deviation (if supported)
+SELECT STDDEV(salary) AS SalaryStdDev FROM employees;
+
+-- GROUP BY with aggregate functions (e.g., Grouping by department)
+SELECT department, 
+       COUNT(*) AS EmployeeCount, 
+       AVG(salary) AS AverageSalary, 
+       MAX(salary) AS MaxSalary
+FROM employees
+GROUP BY department;
+
